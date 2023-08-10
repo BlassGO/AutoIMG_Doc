@@ -49,9 +49,11 @@
 >
 > **7.** Indica que siempre se debe preferir el uso de `Recovery` para el flasheo de archivos `ZIP`. Recordando que el Tool también soporta el flasheo de estos archivos con el dispositivo encendido.
 >
-> **8.** Habilita todas las extensiones de archivos en el selector de archivos.
+> **8.** Indica que siempre se debe preferir el uso de `ADB SHELL` para el reinicio del dispositivo. Esto aumenta la compatibilidad con el software del dispositivo.
+> 
+> **9.** Habilita todas las extensiones de archivos en el selector de archivos.
 >
-> **9.** Indica que se debe mostrar un seguimiendo paso a paso de cada línea de un `Config Script`. Esto es útil para ver su flujo.
+> **10.** Indica que se debe mostrar un seguimiendo paso a paso de cada línea de un `Config Script`. Esto es útil para ver su flujo.
 
 
 >
