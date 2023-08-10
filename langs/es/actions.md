@@ -69,6 +69,7 @@
 > | preferences      | Interruptor "Save my preferences"            |
 > | force_install    | Interruptor "Force the Installation"         |
 > | ensure_recovery  | Interruptor "Prioritize Recovery"            |
+> | ensure_shell     | Interruptor "Prioritize Shell"               |
 > | all_formats      | Interruptor "Enable All file formats"        |
 > | config_tracking  | Interruptor "Enable Config Tracking"         |
 >
@@ -195,6 +196,21 @@
 > Definir hidden_devices Con VERDADERO   # Habilitar dispositivos ocultos
 > Esperar_dispositivo 10
 > Definir hidden_devices Con FALSO       # Deshabilitar dispositivos ocultos
+> ```
+
+> Para usar la búsqueda de dispositivos inalámbricos para `ADB`, se debe definir la Variable `wireless_IP` y `wireless_PORT`, de la siguiente manera:
+> 
+> ```javascript
+> Definir wireless_IP Con "192.168.0.100"   # Definir IP del dispositivo
+> Definir wireless_PORT Con "5555"          # Definir PORT del dispositivo
+> 
+> # Si se desea permitir únicamente la búsqueda inalámbrica
+> # Definir wireless_FORCE Con TRUE
+> Esperar_dispositivo 10
+> 
+> # Deshabilitar la búsqueda inalámbrica
+> Definir wireless_IP Con
+> Definir wireless_PORT Con
 > ```
 
 ## Instalación
@@ -387,6 +403,26 @@
 > Hacialink "https://blassgo.github.io/DinoCode_Doc/"
 > ```
 
+> **Webconfig "URL"**
+> 
+> Permite leer y ejecutar un Config Script desde una URL RAW (Texto directo). El Script remoto se considerará una extensión del bloque actual, es decir, las Variables serán compartidas mutuamente.
+> 
+> ```javascript
+> Definir REG con "Something"
+> Webconfig "https://raw.githubusercontent.com/BlassGO/auto_img_request/main/support.config"
+> 
+> # El webconfig tiene la posibilidad de definir/modificar una Variable.
+> Mensaje con REG
+> ```
+
+> **Read_xml "URL"**
+> 
+> Permite leer una URL RAW, retornando su contenido.
+> 
+> ```javascript
+> Definir CONTENIDO con $(Read_xml "https://raw.githubusercontent.com/BlassGO/auto_img_request/main/support.config")
+> ```
+
 > **Descargar "URL" en "ARCHIVO" con \<OPCIONES\>**
 > 
 > Obtener un archivo desde un enlace de descarga directa (si el destino sale fuera de `HERE` o `TOOL`, necesitará la aprobación del usuario).
@@ -438,13 +474,50 @@
 ## Extra
 > Acciones adicionales.
 
-> **Asegurar_tmp**
+> **Asegurar_tmp \<VERDADERO\>**
 > 
->  Crea un directorio temporal en el dispositivo y se guarda en la variable `TMP`.
+>  Crea un directorio temporal en el dispositivo y se guarda en la variable `TMP`. Por defecto, el directorio temporal solo asegura un directorio válido para el envio de archivos desde la computadora, sin embargo, muchas veces los directorios válidos para el envio de archivos NO soportan la ejecución de binarys o shell scripts. Si se especifica `VERDADERO` se asegurará un directorio en donde sea posible ejecutar binarys o shell scripts PERO no necesariamente será válido para enviar archivos.
 > 
 > ```javascript
 > Asegurar_tmp
 > Mensaje con TMP
+> ```
+
+> **Setup_busybox "ENVIAR HACIA DIRECTORIO" \<CARGAR COMANDOS EN DIRECTORIO\>**
+> 
+>  Envia `busybox` de `bin\extras\` hacia la ruta especificaba (del dispositivo) y se asegura de que sea ejecutable. Si se especifica el segundo parámetro se cargaran todos los comandos de Busybox en ese directorio, simulando un directorio con múltiples binarys (combinándolo con la variable nativa `PATH` esto puede ser muy útil).
+> 
+> ```javascript
+> Asegurar_tmp VERDADERO
+> Setup_busybox TMP
+> ```
+
+> **Busybox "COMANDO"**
+> 
+>  Después de haber usado la acción `Setup_busybox` la ruta de Busybox dentro del dispositivo se mantiene en memoria, permitiendo el envío de comandos.
+> 
+> ```javascript
+> Asegurar_tmp VERDADERO
+> Setup_busybox TMP
+> Busybox "echo Desde busybox"
+> ```
+
+> **Exist_file "ARCHIVO DEL DISPOSITIVO"**
+> 
+>  Permite comprobar la existencia de un archivo dentro del dispositivo (En reelidad, se soportan: archivos, carpetas, bloques...).
+> 
+> ```javascript
+> Si $(exist_file "/sdcard/file.txt")
+>    Imprimir "Existe!"
+> ```
+
+> **Exist_dir "DIRECTORIO DEL DISPOSITIVO"**
+> 
+>  Permite comprobar la existencia exclusiva de una carpeta dentro del dispositivo.
+> 
+> ```javascript
+> Si $(exist_dir "/sdcard/folder")
+>    Imprimir "Existe!"
 > ```
 
 > **Dormir N**

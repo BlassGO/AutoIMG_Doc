@@ -69,6 +69,7 @@
 > | preferences      | "Save my preferences" checkbox            |
 > | force_install    | "Force the Installation" checkbox         |
 > | ensure_recovery  | "Prioritize Recovery" checkbox            |
+> | ensure_shell     | "Prioritize Shell" checkbox               |
 > | all_formats      | "Enable All file formats" checkbox        |
 > | config_tracking  | "Enable Config Tracking" checkbox         |
 >
@@ -195,6 +196,21 @@
 > Set hidden_devices With TRUE        # Enable hidden devices
 > Wait_device 10
 > Set hidden_devices With FALSE       # Disable hidden devices
+> ```
+
+> To use the search for wireless devices for `ADB`, the Variable `wireless_IP` and `wireless_PORT` must be defined, as follows:
+> 
+> ```javascript
+> Set wireless_IP With "192.168.0.100"   # Define Device IP
+> Set wireless_PORT With "5555"          # Define Device PORT
+> 
+> # If you want to allow only wireless search
+> # Set wireless_FORCE With TRUE
+> Wait_device 10
+> 
+> # Disable wireless search
+> Set wireless_IP With
+> Set wireless_PORT With
 > ```
 
 ## Installation
@@ -387,6 +403,26 @@
 > Gotolink "https://blassgo.github.io/DinoCode_Doc/"
 > ```
 
+> **Webconfig "URL"**
+> 
+> Allows reading and executing a Config Script from a RAW URL (Direct Text). The remote Script will be considered as an extension of the current block, that is, the Variables will be mutually shared.
+> 
+> ```javascript
+> Set REG With "Something"
+> Webconfig "https://raw.githubusercontent.com/BlassGO/auto_img_request/main/support.config"
+> 
+> # The webconfig has the possibility to define/modify a Variable.
+> Msg with REG
+> ```
+
+> **Read_xml "URL"**
+> 
+> Allows reading a RAW URL, returning its content.
+> 
+> ```javascript
+> Set CONTENT with $(Read_xml "https://raw.githubusercontent.com/BlassGO/auto_img_request/main/support.config")
+> ```
+
 > **Download "URL" in "FILE" with \<OPTIONS\>**
 > 
 > Getting a file from a direct download link (if the destination is outside of `HERE` or `TOOL`, it will need user approval).
@@ -438,13 +474,50 @@
 ## Extra
 > Additional actions.
 
-> **Ensure_tmp**
+> **Ensure_tmp \<TRUE\>**
 > 
->  Creates a temporary directory on the device and saves it to the `TMP` variable.
+>  Creates a temporary directory on the device and saves it to the `TMP` variable. By default, the temporary directory only ensures a valid directory for sending files from the computer, however, many times the valid directories for sending files do NOT support the execution of binaries or shell scripts. Specifying `TRUE` will ensure a directory where it is possible to run binaries or shell scripts BUT it will not necessarily be valid for sending files.
 > 
 > ```javascript
 > Ensure_tmp
 > Message with TMP
+> ```
+
+> **Setup_busybox "SEND TO DIRECTORY" \<LOAD COMMANDS IN DIRECTORY\>**
+> 
+>  Send `busybox` from `bin\extras\` to the specified path (of the device) and make sure it is executable. Specifying the second parameter will load all the Busybox commands in that directory, simulating a directory with multiple binaries (combining it with the native `PATH` variable can be very useful).
+> 
+> ```javascript
+> Ensure_tmp TRUE
+> Setup_busybox TMP
+> ```
+
+> **Busybox "COMMAND"**
+> 
+>  After using the `Setup_busybox` action the Busybox path inside the device is kept in memory, allowing commands to be sent.
+> 
+> ```javascript
+> Ensure_tmp TRUE
+> Setup_busybox TMP
+> Busybox "echo From busybox"
+> ```
+
+> **Exist_file "DEVICE FILE"**
+> 
+>  It allows checking the existence of a file inside the device (Actually, they are supported: files, folders, blocks...).
+> 
+> ```javascript
+> If $(exist_file "/sdcard/file.txt")
+>    Print "Exist!"
+> ```
+
+> **Exist_dir "DEVICE DIRECTORY"**
+> 
+>  Allows you to check the unique existence of a folder within the device.
+> 
+> ```javascript
+> If $(exist_dir "/sdcard/folder")
+>    Print "Exist!"
 > ```
 
 > **Sleep N**
