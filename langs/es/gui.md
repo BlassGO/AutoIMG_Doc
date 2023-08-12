@@ -3,7 +3,7 @@
 >
 > <p align="center"> <img src="https://raw.githubusercontent.com/BlassGO/AutoIMG_Doc/main/images/tool.png"></p>
 > 
-> **1.** Permite buscar dispositivos conectados.
+> **1.** Permite buscar dispositivos conectados. Si se hace una pulsación larga se hará una búsqueda de dispositivos ocultos para `Fastboot`.
 > 
 > **2.** Permite seleccionar archivos para la instalación (Uno por uno, el orden en el que son cargados también será el orden en el que serán instalados).
 > 

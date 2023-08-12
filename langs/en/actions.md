@@ -227,6 +227,13 @@
 > ```javascript
 > Install "folder\vbmeta.img" in vbmeta with "--disable-verity --disable-verification"
 > ```
+> Additionally, there are special partition names that indicate that the file must have another type of installation.
+> 
+> | **PARTITION NAME** | **EXPLANATION**                                                        |
+> |-------------------------|------------------------------------------------------------------------|
+> | UPDATE FILE             | The file will be installed as an update ZIP by Fastboot.   |
+> | ZIP FILE                | The file will be installed as a flashing ZIP (Recovery/Booted).    |
+> | RAMDISK FILE            | The file will be installed as a Ramdisk patch (Recovery/Booted). |
 
 
 ## Partitions (indirect)
@@ -473,6 +480,24 @@
 
 ## Extra
 > Additional actions.
+
+> **get_slot**
+> 
+>  Allows you to get the extent of the device's active `SLOT` when in modes other than `Fastboot` (in which it is not possible to use the native `current_slot` variable). If the device is not `A/B` nothing will be returned.
+> 
+> ```javascript
+> Set ACTIVE_SLOT With $(get_slot)
+> Msg with ACTIVE_SLOT
+> ```
+
+> **get_cmdline "PROP to extract"**
+> 
+>  Allows you to get device special props values ​​corresponding to `/proc/cmdline` and `/proc/bootconfig` (Only supported modes like Booted/Recovery).
+> 
+> ```javascript
+> Set STATE With $(get_cmdline "androidboot.verifiedbootstate")
+> Msg with STATE
+> ```
 
 > **Ensure_tmp \<TRUE\>**
 > 
