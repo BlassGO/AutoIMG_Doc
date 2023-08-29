@@ -451,7 +451,7 @@
 ## ZIPs
 > Actions for managing ZIPs.
 
-> **Unzip "FILE" "DEST" \<OPTIONS\>**
+> **Unzip "ZIP" "DEST" \<OPTIONS\>**
 > 
 >  Allows you to extract ZIP files from your computer.
 > 
@@ -476,6 +476,26 @@
 > Unzip "folder\custom.zip" "folder\extracted" "force files mix-path regex-name: \.txt$"
 > ```
 
+> **Zip "FILE" "ZIP"**
+> 
+>  Allows you to add files to ZIPs on your computer.
+>
+> The following action can have two behaviors:
+> ```javascript
+> Zip "file.txt" "folder\custom.zip"
+> ```
+> * If the ZIP already exists, the file will be added keeping all the files already existing in the ZIP.
+> * If the ZIP does not exist, the ZIP will be created to later add the file.
+>
+> If you try to add folders, the folder itself will not be added, but its contents.
+> ```javascript
+> Zip "folder" "folder\custom.zip"
+> ```
+>
+> It is possible to add files/folders in internal paths of the ZIP, as long as the internal folder ALREADY EXISTS. Creating new folders within a ZIP is not supported.
+> ```javascript
+> Zip "folder" "folder\custom.zip\folder_1\folder_2"
+> ```
 
 
 ## Extra

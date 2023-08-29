@@ -451,7 +451,7 @@
 ## ZIPs
 > Acciones para el manejo de ZIPs.
 
-> **Unzip "ARCHIVO" "DESTINO" \<OPCIONES\>**
+> **Unzip "ZIP" "DESTINO" \<OPCIONES\>**
 > 
 >  Permite extraer archivos ZIPs de la computadora.
 > 
@@ -476,6 +476,26 @@
 > Unzip "folder\custom.zip" "folder\extraido" "force files mix-path regex-name: \.txt$"
 > ```
 
+> **Zip "ARCHIVO" "ZIP"**
+> 
+>  Permite añadir archivos a ZIPs de la computadora.
+>
+> La siguiente acción puede tener dos comportamientos:
+> ```javascript
+> Zip "archivo.txt" "folder\custom.zip"
+> ```
+> * Si el ZIP ya existe, se añadirá el archivo conservando todos los ficheros ya existentes en el ZIP.
+> * Si el ZIP no existe, se creará el ZIP para posteriormente añadir el archivo.
+>
+> Si se intentan añadir carpetas, no se añadirá la carpeta como tal, sino sus contenidos.
+> ```javascript
+> Zip "folder" "folder\custom.zip"
+> ```
+>
+> Es posible añadir archivos/carpetas en rutas internas del ZIP, siempre y cuando, la carpeta interna YA EXISTA. No se soporta la creación de carpetas nuevas dentro de un ZIP.
+> ```javascript
+> Zip "folder" "folder\custom.zip\folder_1\folder_2"
+> ```
 
 
 ## Extra
